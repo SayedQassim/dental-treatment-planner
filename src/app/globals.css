@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f9fafb;
+  --foreground: #111827;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Radix dialog animations */
+@keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes fade-out { from { opacity: 1 } to { opacity: 0 } }
+@keyframes zoom-in { from { opacity: 0; transform: translate(-50%,-50%) scale(.95) } to { opacity: 1; transform: translate(-50%,-50%) scale(1) } }
+@keyframes zoom-out { from { opacity: 1; transform: translate(-50%,-50%) scale(1) } to { opacity: 0; transform: translate(-50%,-50%) scale(.95) } }
+
+[data-state=open].animate-in { animation: fade-in 150ms ease; }
+[data-state=closed].animate-out { animation: fade-out 150ms ease; }
+[data-state=open].zoom-in-95 { animation: zoom-in 150ms ease; }
+[data-state=closed].zoom-out-95 { animation: zoom-out 150ms ease; }
