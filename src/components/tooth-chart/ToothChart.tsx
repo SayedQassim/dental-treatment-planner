@@ -87,7 +87,11 @@ function Tooth({
       );
 
     return (
-      <svg viewBox="0 0 32 44" className="w-full h-full">
+      <svg
+        viewBox="0 0 32 44"
+        preserveAspectRatio="xMidYMid meet"
+        className="block w-full h-auto"
+      >
         {isUpper ? roots : crown}
         {isUpper ? crown : roots}
       </svg>
@@ -99,7 +103,7 @@ function Tooth({
       {renderShape()}
       <span
         className={cn(
-          'text-[9px] font-medium tabular-nums leading-none',
+          'text-[8px] sm:text-[9px] font-medium tabular-nums leading-none mt-0.5',
           label,
         )}
       >
@@ -111,7 +115,7 @@ function Tooth({
   if (!onClick) {
     return (
       <div
-        className="flex flex-col items-center gap-0.5"
+        className="flex flex-col items-center w-full"
         aria-hidden="true"
       >
         {inner}
@@ -127,7 +131,7 @@ function Tooth({
     <button
       type="button"
       onClick={onClick}
-      className="flex flex-col items-center gap-0.5 group transition-transform cursor-pointer hover:scale-110"
+      className="flex flex-col items-center w-full group transition-transform cursor-pointer active:scale-95 hover:scale-105 touch-manipulation"
       title={titleParts.join(' · ')}
       aria-pressed={state === 'selected' || state === 'both'}
       aria-label={`Tooth ${num}`}
@@ -153,40 +157,39 @@ export default function ToothChart({
   readOnly,
   size = 'editor',
 }: ToothChartProps) {
-  const toothSize = size === 'editor' ? 'w-7 h-10 sm:w-8 sm:h-12' : 'w-6 h-9';
-  const gap = size === 'editor' ? 'gap-0.5 sm:gap-1' : 'gap-0.5';
+  const toothCell =
+    size === 'editor'
+      ? 'flex-1 basis-0 min-w-0 max-w-8 md:max-w-9'
+      : 'flex-1 basis-0 min-w-0 max-w-6';
+  const gap = size === 'editor' ? 'gap-[2px] sm:gap-1' : 'gap-[1px]';
   const handler = readOnly ? undefined : onToggle;
 
   return (
-    <div
-      className={cn(
-        'mx-auto inline-block',
-        size === 'editor' && 'p-2',
-      )}
-      data-tooth-chart
-    >
-      <div className={cn('flex justify-center', gap)}>
-        {UPPER_TEETH.map(num => (
-          <div key={num} className={toothSize}>
-            <Tooth
-              num={num}
-              state={toothState(num, selected, treated)}
-              onClick={handler ? () => handler(num) : undefined}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="my-1 h-px bg-gray-300 mx-2" />
-      <div className={cn('flex justify-center', gap)}>
-        {LOWER_TEETH.map(num => (
-          <div key={num} className={toothSize}>
-            <Tooth
-              num={num}
-              state={toothState(num, selected, treated)}
-              onClick={handler ? () => handler(num) : undefined}
-            />
-          </div>
-        ))}
+    <div className="w-full" data-tooth-chart>
+      <div className={cn('w-full', size === 'editor' && 'p-1 sm:p-2')}>
+        <div className={cn('flex justify-center items-end', gap)}>
+          {UPPER_TEETH.map(num => (
+            <div key={num} className={toothCell}>
+              <Tooth
+                num={num}
+                state={toothState(num, selected, treated)}
+                onClick={handler ? () => handler(num) : undefined}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="my-1 h-px bg-gray-300 mx-2" />
+        <div className={cn('flex justify-center items-start', gap)}>
+          {LOWER_TEETH.map(num => (
+            <div key={num} className={toothCell}>
+              <Tooth
+                num={num}
+                state={toothState(num, selected, treated)}
+                onClick={handler ? () => handler(num) : undefined}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

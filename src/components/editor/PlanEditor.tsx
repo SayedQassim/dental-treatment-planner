@@ -37,7 +37,7 @@ export default function PlanEditor() {
     <div className="space-y-5">
       <Section title="Patient">
         <div className="grid grid-cols-12 gap-3">
-          <div className="col-span-3">
+          <div className="col-span-4 sm:col-span-3">
             <Label htmlFor="title">Title</Label>
             <Select
               id="title"
@@ -49,7 +49,7 @@ export default function PlanEditor() {
               ))}
             </Select>
           </div>
-          <div className="col-span-9">
+          <div className="col-span-8 sm:col-span-9">
             <Label htmlFor="name">Full name</Label>
             <Input
               id="name"
@@ -58,7 +58,7 @@ export default function PlanEditor() {
               onChange={e => setPlan({ patientName: e.target.value })}
             />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-6 sm:col-span-4">
             <Label htmlFor="ref">Ref No.</Label>
             <Input
               id="ref"
@@ -66,7 +66,7 @@ export default function PlanEditor() {
               onChange={e => setPlan({ refNo: e.target.value })}
             />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-6 sm:col-span-4">
             <Label htmlFor="provider">Provider</Label>
             <Select
               id="provider"
@@ -78,7 +78,7 @@ export default function PlanEditor() {
               ))}
             </Select>
           </div>
-          <div className="col-span-4">
+          <div className="col-span-12 sm:col-span-4">
             <Label htmlFor="date">Date</Label>
             <Input
               id="date"
@@ -148,12 +148,13 @@ export default function PlanEditor() {
                   <button
                     type="button"
                     onClick={() => removeLineItem(item.id)}
-                    className="text-gray-400 hover:text-red-600"
+                    className="text-gray-400 hover:text-red-600 p-1 -m-1"
+                    aria-label="Remove treatment"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
-                <div className="col-span-5">
+                <div className="col-span-12 sm:col-span-5">
                   <Label className="text-xs">Teeth</Label>
                   <div className="text-xs text-gray-600 min-h-9 flex items-center px-2 rounded border border-gray-200 bg-gray-50">
                     {item.teeth.length > 0
@@ -161,10 +162,11 @@ export default function PlanEditor() {
                       : 'No teeth'}
                   </div>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-5 sm:col-span-3">
                   <Label className="text-xs">Unit price</Label>
                   <Input
                     type="number"
+                    inputMode="decimal"
                     min={0}
                     step="0.01"
                     value={item.unitPrice}
@@ -175,10 +177,11 @@ export default function PlanEditor() {
                     }
                   />
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-3 sm:col-span-2">
                   <Label className="text-xs">Qty</Label>
                   <Input
                     type="number"
+                    inputMode="numeric"
                     min={1}
                     value={item.quantity}
                     onChange={e =>
@@ -188,8 +191,8 @@ export default function PlanEditor() {
                     }
                   />
                 </div>
-                <div className="col-span-2 text-right">
-                  <Label className="text-xs">Line total</Label>
+                <div className="col-span-4 sm:col-span-2 text-right">
+                  <Label className="text-xs">Total</Label>
                   <div className="h-9 flex items-center justify-end font-medium text-sm tabular-nums">
                     {formatCurrency(item.unitPrice * item.quantity, clinic.currency)}
                   </div>
@@ -202,7 +205,7 @@ export default function PlanEditor() {
 
       <Section title="Financials">
         <div className="grid grid-cols-12 gap-3 items-end">
-          <div className="col-span-4">
+          <div className="col-span-12 sm:col-span-4">
             <Label>Discount type</Label>
             <Select
               value={plan.discountType}
@@ -215,7 +218,7 @@ export default function PlanEditor() {
               <option value="percentage">Percentage</option>
             </Select>
           </div>
-          <div className="col-span-4">
+          <div className="col-span-7 sm:col-span-4">
             <Label>Discount label</Label>
             <Input
               value={plan.discountLabel}
@@ -224,12 +227,13 @@ export default function PlanEditor() {
               placeholder="e.g. Unipal Disc"
             />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-5 sm:col-span-4">
             <Label>
-              {plan.discountType === 'percentage' ? 'Discount %' : 'Discount value'}
+              {plan.discountType === 'percentage' ? 'Discount %' : 'Amount'}
             </Label>
             <Input
               type="number"
+              inputMode="decimal"
               min={0}
               step="0.01"
               value={plan.discountValue}
@@ -268,7 +272,7 @@ export default function PlanEditor() {
       </Section>
 
       <Section title="Signatures">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <Label>Guardian (if minor)</Label>
             <Input
@@ -286,7 +290,7 @@ export default function PlanEditor() {
         </div>
       </Section>
 
-      <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+      <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-2 border-t border-gray-200 pt-4">
         <button
           type="button"
           onClick={() => {
@@ -294,11 +298,13 @@ export default function PlanEditor() {
               resetPlan();
             }
           }}
-          className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
+          className="text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center gap-1 sm:justify-start"
         >
           <RotateCcw className="h-4 w-4" /> Reset plan
         </button>
-        <Button onClick={() => window.print()}>Print / Export PDF</Button>
+        <Button onClick={() => window.print()} className="h-11 sm:h-9">
+          Print / Export PDF
+        </Button>
       </div>
 
       <TreatmentPicker open={pickerOpen} onOpenChange={setPickerOpen} />

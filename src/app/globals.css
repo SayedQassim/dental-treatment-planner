@@ -38,10 +38,19 @@ body {
   box-sizing: border-box;
 }
 
-@media (max-width: 1280px) {
+/* Fluid preview between mobile and desktop A4 widths */
+@media screen and (max-width: 1280px) {
   .doc-page {
     width: 100%;
     max-width: 210mm;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .doc-page {
+    padding: 6mm 5mm 8mm;
+    font-size: 9.5pt;
+    min-height: auto;
   }
 }
 
