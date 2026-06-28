@@ -96,7 +96,7 @@ export const TREATMENT_TYPES: TreatmentType[] = [
   { id: 'ortho-consultation',    category: 'Orthodontics', name: 'Orthodontic Consultation',        defaultPrice: 30 },
 
   // Preventive & Diagnostic
-  { id: 'examination',           category: 'Preventive & Diagnostic', name: 'Examination / Consultation',     defaultPrice: 15 },
+  { id: 'examination',           category: 'Preventive & Diagnostic', name: 'Examination / Consultation',     defaultPrice: 20 },
   { id: 'xray-periapical',       category: 'Preventive & Diagnostic', name: 'X-ray - Periapical',            defaultPrice: 5 },
   { id: 'xray-panoramic',        category: 'Preventive & Diagnostic', name: 'X-ray - Panoramic (OPG)',       defaultPrice: 30 },
   { id: 'xray-bitewing',         category: 'Preventive & Diagnostic', name: 'X-ray - Bitewing (2 films)',    defaultPrice: 10 },
