@@ -7,12 +7,14 @@ import {
   calcSubtotal,
   formatCurrency,
   formatDate,
+  treatedTeeth,
 } from '@/lib/utils';
 
 export default function DocumentPreview() {
   const clinic = usePlanStore(s => s.clinic);
   const plan = usePlanStore(s => s.plan);
 
+  const treated = treatedTeeth(plan.items);
   const subtotal = calcSubtotal(plan.items);
   const finalTotal = applyDiscount(
     subtotal,
@@ -67,7 +69,7 @@ export default function DocumentPreview() {
       </p>
 
       <div className="flex justify-center mb-4">
-        <ToothChart selected={plan.selectedTeeth} readOnly size="doc" />
+        <ToothChart selected={treated} readOnly size="doc" />
       </div>
 
       <table className="w-full text-[9.5pt] border-collapse mb-4">

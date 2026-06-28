@@ -50,8 +50,8 @@ export default function TreatmentPicker({ open, onOpenChange }: Props) {
           <DialogTitle>Add treatment</DialogTitle>
           <p className="text-xs text-gray-500">
             {selectedCount > 0
-              ? `Will be linked to ${selectedCount} selected tooth/teeth · quantity ${selectedCount}`
-              : 'No teeth selected · adds a single line with quantity 1'}
+              ? `Will be linked to ${selectedCount} selected tooth/teeth · quantity ${selectedCount}. Selection clears after add.`
+              : 'No teeth selected · adds a single line with quantity 1.'}
           </p>
         </DialogHeader>
 

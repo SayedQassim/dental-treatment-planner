@@ -155,7 +155,13 @@ export const usePlanStore = create<PlanStore>()(
             }
           }
           return {
-            plan: { ...s.plan, items: [...s.plan.items, item], consentText },
+            plan: {
+              ...s.plan,
+              items: [...s.plan.items, item],
+              consentText,
+              // Clear the picker so the next add starts fresh.
+              selectedTeeth: [],
+            },
           };
         });
       },

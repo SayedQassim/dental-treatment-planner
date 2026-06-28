@@ -13,6 +13,7 @@ import {
   applyDiscount,
   calcSubtotal,
   formatCurrency,
+  treatedTeeth,
 } from '@/lib/utils';
 import type { DiscountType } from '@/lib/types';
 
@@ -30,6 +31,7 @@ export default function PlanEditor() {
 
   const subtotal = calcSubtotal(plan.items);
   const finalTotal = applyDiscount(subtotal, plan.discountType, plan.discountValue);
+  const treated = treatedTeeth(plan.items);
 
   return (
     <div className="space-y-5">
@@ -91,23 +93,32 @@ export default function PlanEditor() {
       <Section
         title="Teeth"
         right={
-          <button
-            type="button"
-            onClick={clearTeeth}
-            className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1"
-          >
-            <Eraser className="h-3.5 w-3.5" /> Clear
-          </button>
+          plan.selectedTeeth.length > 0 ? (
+            <button
+              type="button"
+              onClick={clearTeeth}
+              className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1"
+            >
+              <Eraser className="h-3.5 w-3.5" /> Clear selection
+            </button>
+          ) : null
         }
       >
         <div className="rounded-md border border-gray-200 bg-gray-50 p-3">
-          <ToothChart selected={plan.selectedTeeth} onToggle={toggleTooth} />
-          <p className="mt-2 text-center text-xs text-gray-500">
-            Click teeth to select for the next treatment ·{' '}
-            <span className="font-medium text-amber-700">
-              {plan.selectedTeeth.length} selected
+          <ToothChart
+            selected={plan.selectedTeeth}
+            treated={treated}
+            onToggle={toggleTooth}
+          />
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-gray-600">
+            <Legend swatch="#fde047" label="Selected for next treatment" />
+            <Legend swatch="#fef3c7" label="Already on plan" />
+            <span className="text-gray-400">
+              {plan.selectedTeeth.length > 0
+                ? `${plan.selectedTeeth.length} selected · add a treatment to attach them`
+                : 'Click teeth to pick the ones for the next treatment'}
             </span>
-          </p>
+          </div>
         </div>
       </Section>
 
@@ -292,6 +303,18 @@ export default function PlanEditor() {
 
       <TreatmentPicker open={pickerOpen} onOpenChange={setPickerOpen} />
     </div>
+  );
+}
+
+function Legend({ swatch, label }: { swatch: string; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1">
+      <span
+        className="inline-block w-3 h-3 rounded-sm border border-amber-700/40"
+        style={{ background: swatch }}
+      />
+      {label}
+    </span>
   );
 }
 

@@ -2,6 +2,12 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { DiscountType, LineItem } from './types';
 
+export function treatedTeeth(items: LineItem[]): number[] {
+  const set = new Set<number>();
+  for (const item of items) for (const t of item.teeth) set.add(t);
+  return [...set].sort((a, b) => a - b);
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
