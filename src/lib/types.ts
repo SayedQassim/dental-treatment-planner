@@ -1,9 +1,3 @@
-export type PatientTitle = 'Mr.' | 'Mrs.' | 'Miss' | 'Dr.' | 'Master';
-
-export type DiscountType = 'none' | 'fixed_amount' | 'percentage';
-
-export type PlanStatus = 'draft' | 'finalised';
-
 export type ToothType = 'incisor' | 'canine' | 'premolar' | 'molar' | 'wisdom';
 
 export interface ToothInfo {
@@ -21,67 +15,53 @@ export interface TreatmentType {
   defaultPrice: number;
 }
 
-export interface Clinic {
-  id: string;
+export type DiscountType = 'none' | 'fixed_amount' | 'percentage';
+
+export interface ClinicProfile {
   name: string;
-  address: string;
+  addressLines: string[];
   tel: string;
   fax: string;
   currency: string;
-  discountLabel: string;
-  logoUrl?: string;
-  createdAt: string;
+  defaultDiscountLabel: string;
+  validityMonths: number;
 }
 
 export interface Provider {
   id: string;
-  clinicId: string;
   name: string;
-  title: string;
-  isActive: boolean;
-  createdAt: string;
 }
 
-export interface TreatmentItem {
+export interface LineItem {
   id: string;
-  planId: string;
-  toothNumbers: string[];
-  treatmentName: string;
+  teeth: number[];
+  treatmentId: string;
+  description: string;
   unitPrice: number;
   quantity: number;
-  providerName: string;
-  dateCompleted?: string;
-  sortOrder: number;
+  provider: string;
+  dateCompleted: string;
 }
 
-export interface TreatmentPlan {
+export interface Plan {
+  patientTitle: string;
+  patientName: string;
+  refNo: string;
+  provider: string;
+  planDate: string;
+  selectedTeeth: number[];
+  items: LineItem[];
+  discountType: DiscountType;
+  discountValue: number;
+  discountLabel: string;
+  consentText: string;
+  guardianName: string;
+  witnessName: string;
+}
+
+export interface ConsentTemplate {
   id: string;
-  clinicId: string;
-  patientName: string;
-  patientTitle: PatientTitle;
-  refNo: string;
-  providerId: string;
-  providerName: string;
-  planDate: string;
-  discountType: DiscountType;
-  discountValue: number;
-  discountLabel: string;
-  consentText: string;
-  status: PlanStatus;
-  items: TreatmentItem[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface TreatmentPlanFormData {
-  patientTitle: PatientTitle;
-  patientName: string;
-  refNo: string;
-  providerId: string;
-  planDate: string;
-  discountType: DiscountType;
-  discountValue: number;
-  discountLabel: string;
-  consentText: string;
-  items: (Omit<TreatmentItem, 'planId'> & { id: string })[];
+  category: string;
+  label: string;
+  body: string;
 }

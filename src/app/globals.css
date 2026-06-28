@@ -1,23 +1,78 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f9fafb;
+  --background: #f3f4f6;
   --foreground: #111827;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 /* Radix dialog animations */
 @keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
 @keyframes fade-out { from { opacity: 1 } to { opacity: 0 } }
-@keyframes zoom-in { from { opacity: 0; transform: translate(-50%,-50%) scale(.95) } to { opacity: 1; transform: translate(-50%,-50%) scale(1) } }
-@keyframes zoom-out { from { opacity: 1; transform: translate(-50%,-50%) scale(1) } to { opacity: 0; transform: translate(-50%,-50%) scale(.95) } }
+@keyframes zoom-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.95) }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1) }
+}
+@keyframes zoom-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1) }
+  to   { opacity: 0; transform: translate(-50%, -50%) scale(.95) }
+}
+[data-state=open].animate-in    { animation: fade-in 150ms ease; }
+[data-state=closed].animate-out  { animation: fade-out 150ms ease; }
+[data-state=open].zoom-in-95     { animation: zoom-in 150ms ease; }
+[data-state=closed].zoom-out-95  { animation: zoom-out 150ms ease; }
 
-[data-state=open].animate-in { animation: fade-in 150ms ease; }
-[data-state=closed].animate-out { animation: fade-out 150ms ease; }
-[data-state=open].zoom-in-95 { animation: zoom-in 150ms ease; }
-[data-state=closed].zoom-out-95 { animation: zoom-out 150ms ease; }
+/* ---------- A4 document ---------- */
+.doc-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 18mm 18mm 22mm;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: 11pt;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1280px) {
+  .doc-page {
+    width: 100%;
+    max-width: 210mm;
+  }
+}
+
+/* ---------- Print ---------- */
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    background: #ffffff !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  .doc-page, .doc-page * {
+    visibility: visible;
+  }
+  .doc-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .page-break-before {
+    page-break-before: always;
+    break-before: page;
+  }
+}
