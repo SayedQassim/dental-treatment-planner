@@ -75,7 +75,7 @@ export default function HomePage() {
         </div>
         <div
           className={
-            'lg:sticky lg:top-16 lg:self-start lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto print:overflow-visible ' +
+            'lg:sticky lg:top-16 lg:self-start lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto print:overflow-visible print:!block ' +
             (previewOpenMobile ? 'block' : 'hidden lg:block')
           }
         >
